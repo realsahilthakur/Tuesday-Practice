@@ -1,33 +1,24 @@
-name: Variable Scope Demo of Sahil Thakur
+name: Variable Scope Demo of Sahil Thakur - new
 
 on: [push]
 
 env:
-  MY_WORKFLOW_VARIABLE: "This is a workflow-level variable of Sahil Thakur"
+  MY_VARIABLE: "Defined at workflow level"
 
 jobs:
   example-job:
     runs-on: ubuntu-latest
     env:
-      MY_JOB_VARIABLE: "This is a job-level variable of Sahil Thakur"
+      MY_VARIABLE: "Overridden at job level"
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Step 1 - Inherit from Job
+        run: echo "MY_VARIABLE = $MY_VARIABLE"
 
-      - name: Step 1 - Print workflow and job variables
-        run: |
-          echo "Workflow-level variable: $MY_WORKFLOW_VARIABLE"
-          echo "Job-level variable: $MY_JOB_VARIABLE"
-
-      - name: Step 2 - Step-level variable
+      - name: Step 2 - Override at Step Level
         env:
-          MY_STEP_VARIABLE: "This is a step-level variable of Sahil Thakur"
-        run: |
-          echo "Workflow-level variable: $MY_WORKFLOW_VARIABLE"
-          echo "Job-level variable: $MY_JOB_VARIABLE"
-          echo "Step-level variable: $MY_STEP_VARIABLE"
+          MY_VARIABLE: "Overridden at step level"
+        run: echo "MY_VARIABLE = $MY_VARIABLE"
 
-      - name: Step 3 - Try accessing step variable outside
-        run: |
-          echo "Step-level variable (should be empty): $MY_STEP_VARIABLE"
+      - name: Step 3 - Back to Job Level
+        run: echo "MY_VARIABLE = $MY_VARIABLE"
