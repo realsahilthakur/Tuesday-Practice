@@ -1,0 +1,33 @@
+name: Variable Scope Demo of Sahil Thakur
+
+on: [push]
+
+env:
+  MY_WORKFLOW_VARIABLE: "This is a workflow-level variable of Sahil Thakur"
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+    env:
+      MY_JOB_VARIABLE: "This is a job-level variable of Sahil Thakur"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Step 1 - Print workflow and job variables
+        run: |
+          echo "Workflow-level variable: $MY_WORKFLOW_VARIABLE"
+          echo "Job-level variable: $MY_JOB_VARIABLE"
+
+      - name: Step 2 - Step-level variable
+        env:
+          MY_STEP_VARIABLE: "This is a step-level variable of Sahil Thakur"
+        run: |
+          echo "Workflow-level variable: $MY_WORKFLOW_VARIABLE"
+          echo "Job-level variable: $MY_JOB_VARIABLE"
+          echo "Step-level variable: $MY_STEP_VARIABLE"
+
+      - name: Step 3 - Try accessing step variable outside
+        run: |
+          echo "Step-level variable (should be empty): $MY_STEP_VARIABLE"
